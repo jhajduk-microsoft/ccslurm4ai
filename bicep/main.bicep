@@ -157,7 +157,6 @@ output globalVars object = {
   mySqlPwd: MySqlConfig.dbAdminPwd
   loginNicsCount: loginNIC.outputs.count
   loginNicsId: loginNIC.outputs.ids
-  loginNicsPublicIP: loginNIC.outputs.public_ips
   prometheusVmId: telemetryInfra.outputs.prometheusVmId
   prometheusVmPrincipalId: telemetryInfra.outputs.prometheusVmPrincipalId
   dataCollectionRuleId: telemetryInfra.outputs.dataCollectionRuleId
