@@ -7,14 +7,6 @@ resource loginNSG 'Microsoft.Network/networkSecurityGroups@2019-11-01' = {
   location: region
 }
 
-resource loginPIP 'Microsoft.Network/publicIPAddresses@2019-11-01' = [ for i in range(1, numberOfInstances): {
-  name: 'login${i}PIP'
-  location: region
-  properties: {
-    publicIPAllocationMethod: 'Static'
-  }
-}]
-
 resource loginNIC 'Microsoft.Network/networkInterfaces@2019-11-01' = [ for i in range(1, numberOfInstances): {
   name: 'login${i}NIC'
   location: region
@@ -25,9 +17,6 @@ resource loginNIC 'Microsoft.Network/networkInterfaces@2019-11-01' = [ for i in 
         name: 'ipconfig1'
         properties: {
           privateIPAllocationMethod: 'Dynamic'
-          publicIPAddress: {
-            id: loginPIP[i - 1].id
-          }
           subnet: {
             id: subnetId
           }
@@ -42,4 +31,3 @@ resource loginNIC 'Microsoft.Network/networkInterfaces@2019-11-01' = [ for i in 
 
 output count int = numberOfInstances
 output ids array = [for i in range(0, numberOfInstances): loginNIC[i].id]
-output public_ips array = [for i in range(0, numberOfInstances): loginPIP[i].properties.ipAddress]

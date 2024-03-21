@@ -55,14 +55,6 @@ resource cycleserverNSG 'Microsoft.Network/networkSecurityGroups@2019-11-01' = {
 //  }
 }
 
-resource cycleserverPIP 'Microsoft.Network/publicIPAddresses@2019-11-01' = {
-  name: 'cycleserverPIP'
-  location: region
-  properties: {
-    publicIPAllocationMethod: 'Static'
-  }
-}
-
 resource cycleserverNIC 'Microsoft.Network/networkInterfaces@2019-11-01' = {
   name: 'cycleserverNIC'
   location: region
@@ -73,9 +65,6 @@ resource cycleserverNIC 'Microsoft.Network/networkInterfaces@2019-11-01' = {
         name: 'ipconfig1'
         properties: {
           privateIPAllocationMethod: 'Dynamic'
-          publicIPAddress: {
-            id: cycleserverPIP.id
-          }
           subnet: {
             id: subnetIds[config.subnetName]
           }
@@ -214,6 +203,5 @@ output name string = cycleserver.name
 output id string = cycleserver.id
 output adminUser string = cycleserver.properties.osProfile.adminUsername
 output adminPublicKey string = config.sshPublicKey
-output privateIp string = cycleserverNIC.properties.ipConfigurations[0].properties.privateIPAddress
 output lockerSAName string = lockerAccount.name
 
